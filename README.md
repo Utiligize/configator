@@ -1,8 +1,8 @@
 # ![Configator logo depicting a cool gator](configator.png)
 
-<!-- markdownlint-disable MD033 -->
-<center><em>a convenient way to load your app configuration from 1Password</em></center>
-<!-- markdownlint-enable MD033 -->
+<!-- markdownlint-disable MD036 -->
+*A convenient way to load your app configuration from 1Password*
+<!-- markdownlint-enable MD036 -->
 
 ## Features
 
@@ -70,6 +70,7 @@ Nested models are loaded from separate sections in the 1Password item. Fields in
 ### Supported Features
 
 - Basic types (`str`, `int`, `float`, even `complex`) are simply parsed from the string in 1Password.
+- `decimal.Decimal` is also supported and should usually be preferred over `float`.
 - Booleans are special: since any string is truthy in Python, a `bool` must have one of 8 (case-insensitive) values:
   - "true", "1", "yes", and "on" are interpreted as `True`.
   - "false", "0", "no", and "off" are interpreted as `False`.

@@ -6,9 +6,13 @@ This file provides guidance to AI agents working with code in this repository.
 
 Architecture decisions are documented in `ADRs.md` in the repository root. All code must adhere to the decisions recorded there.
 
+## Changelog
+
+The project keeps a changelog in `CHANGELOG.md`. Usage is as described at <https://keepachangelog.com/en/1.1.0/>.
+
 ## SDK Docs
 
-The module is a kind of wrapper around the 1Password SDK which has docs at <https://developer.1password.com/docs/sdks/>
+The module is built around the 1Password SDK which has docs at <https://developer.1password.com/docs/sdks/>.
 
 ## Commands
 
@@ -37,7 +41,7 @@ The module is a kind of wrapper around the 1Password SDK which has docs at <http
 
 ## Implementation Workflow
 
-This repository follows **GitHub Flow** for version control and collaboration. The implementation plan and status is kept in `IMPLEMENTATION.md`.
+This repository follows **GitHub Flow** for version control and collaboration.
 
 ### Adding Dependencies
 
