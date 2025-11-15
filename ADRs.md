@@ -1,8 +1,8 @@
 # Architecture Decision Records
 
+<!-- omit in toc -->
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
 - [ADR-001: Use Structlog for logging](#adr-001-use-structlog-for-logging)
 - [ADR-002: Use Pydantic for configuration schema validation](#adr-002-use-pydantic-for-configuration-schema-validation)
 - [ADR-003: Integrate directly with 1Password SDK](#adr-003-integrate-directly-with-1password-sdk)
