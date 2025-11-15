@@ -4,11 +4,11 @@
 *A convenient way to load your app configuration from 1Password*
 <!-- markdownlint-enable MD036 -->
 
-## Features
-
-- 🔐 **Secure**: Load configuration from 1Password vaults
-- 📦 **Type-safe**: Pydantic models for typed configuration
-- 🔄 **Recursive**: Automatically resolves `op://` secret references
+[![Ruff][ruff-badge-img]][ruff-badge-href]
+[![CI status][github-actions-ci-badge-img]][github-actions-ci-badge-href]
+[![Quality Gate Status][sonarcloud-quality-badge-img]][sonarcloud-badge-href]
+[![Test Coverage][sonarcloud-cov-badge-img]][sonarcloud-badge-href]
+[![Lines of Code][sonarcloud-loc-badge-img]][sonarcloud-badge-href]
 
 ## Quick Start
 
@@ -124,3 +124,14 @@ just test
 ```plain
 just test-failed
 ```
+
+◼️◼️◼️
+
+[github-actions-ci-badge-href]: https://github.com/Utiligize/configator/actions/workflows/ci.yml
+[github-actions-ci-badge-img]: https://github.com/Utiligize/configator/actions/workflows/ci.yml/badge.svg?branch=main
+[ruff-badge-href]: https://github.com/astral-sh/ruff
+[ruff-badge-img]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json
+[sonarcloud-badge-href]: https://sonarcloud.io/summary/new_code?id=utiligize%3Aconfigator
+[sonarcloud-cov-badge-img]: https://sonarcloud.io/api/project_badges/measure?project=utiligize%3Aconfigator&metric=coverage&token=f897eae3def4fd2e7e3bc7bd5a302da020955100
+[sonarcloud-loc-badge-img]: https://sonarcloud.io/api/project_badges/measure?project=utiligize%3Aconfigator&metric=ncloc&token=f897eae3def4fd2e7e3bc7bd5a302da020955100
+[sonarcloud-quality-badge-img]: https://sonarcloud.io/api/project_badges/measure?project=utiligize%3Aconfigator&metric=alert_status&token=f897eae3def4fd2e7e3bc7bd5a302da020955100
