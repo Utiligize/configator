@@ -20,12 +20,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13", "3.14"]
     steps:
     - name: Checkout repo
       uses: actions/checkout@v5
       with:
         fetch-depth: 0  # Shallow clone disabled to improve Sonarcloud analysis
         show-progress: false
+    - name: Install just
+      uses: extractions/setup-just@v3
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
     - name: Install uv
       uses: astral-sh/setup-uv@v7
       with:
@@ -33,14 +40,11 @@ jobs:
         cache-dependency-glob: |
           **/pyproject.toml
           **/uv.lock
+        python-version: ${{ matrix.python-version }}
     - name: Set up Python
       run: uv python install
     - name: Install dependencies
-      run: uv sync
-    - name: Install just
-      uses: extractions/setup-just@v3
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+      run: uv sync --locked --all-extras --dev
     - name: Lint
       run: just lint
     - name: Test
@@ -48,11 +52,13 @@ jobs:
       env:
         OP_TOKEN: ${{ secrets.OP_TOKEN }}
     - name: Scan
+      if: ${{ matrix.python-version == '3.12' }}
       uses: SonarSource/sonarqube-scan-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     - name: Push scan results to DefectDojo
+      if: ${{ matrix.python-version == '3.12' }}
       run: |
         curl -X 'POST' \
         'https://zap.utiligize.com/api/v2/import-scan/' \
