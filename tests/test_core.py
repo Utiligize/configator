@@ -50,8 +50,8 @@ def mock_vault():
     return VaultOverview(
         id="vault123",
         title="TestVault",
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
     )
 
 
@@ -61,12 +61,12 @@ def mock_item_overview():
     return ItemOverview(
         id="item456",
         title="TestItem",
-        vault_id="vault123",
+        vaultId="vault123",
         category="Login",
         websites=[],
         tags=[],
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
         state="active",
     )
 
@@ -77,9 +77,9 @@ def mock_item_field():
     return ItemField(
         id="field1",
         title="Field-One",
-        field_type="Text",
+        fieldType="Text",
         value="test_value",
-        section_id=None,
+        sectionId=None,
     )
 
 
@@ -95,21 +95,21 @@ def mock_item():
     return Item(
         id="item456",
         title="TestItem",
-        vault_id="vault123",
+        vaultId="vault123",
         category="Login",
         fields=[
             ItemField(
                 id="f1",
                 title="simple-field",
-                field_type="Text",
+                fieldType="Text",
                 value="simple_value",
-                section_id=None,
+                sectionId=None,
             ),
             ItemField(
-                id="f2", title="debug", field_type="Text", value="true", section_id="section1"
+                id="f2", title="debug", fieldType="Text", value="true", sectionId="section1"
             ),
             ItemField(
-                id="f3", title="timeout", field_type="Text", value="30", section_id="section1"
+                id="f3", title="timeout", fieldType="Text", value="30", sectionId="section1"
             ),
         ],
         sections=[ItemSection(id="section1", title="Section")],
@@ -118,8 +118,8 @@ def mock_item():
         websites=[],
         version=1,
         files=[],
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
     )
 
 
@@ -146,14 +146,14 @@ def test_field_matcher_title_no_match(mock_item_field):
 
 def test_field_matcher_with_section_id():
     """Test field matcher with section ID."""
-    field = ItemField(id="f1", title="test", field_type="Text", value="val", section_id="sec1")
+    field = ItemField(id="f1", title="test", fieldType="Text", value="val", sectionId="sec1")
     assert _field_matcher(field, title="test", section_id="sec1") is True
     assert _field_matcher(field, title="test", section_id="sec2") is False
 
 
 def test_field_matcher_normalizes_field_name():
     """Test field matcher normalizes field names."""
-    field = ItemField(id="f1", title="Field-Name", field_type="Text", value="val", section_id=None)
+    field = ItemField(id="f1", title="Field-Name", fieldType="Text", value="val", sectionId=None)
     assert _field_matcher(field, title="field_name") is True
 
 
@@ -228,7 +228,7 @@ def test_get_sections():
     item = Item(
         id="item1",
         title="Test",
-        vault_id="vault1",
+        vaultId="vault1",
         category="Login",
         fields=[],
         sections=[
@@ -240,8 +240,8 @@ def test_get_sections():
         websites=[],
         version=1,
         files=[],
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
     )
     sections = _get_sections(item)
     assert sections == {"section one": "sec1", "section two": "sec2"}
@@ -252,7 +252,7 @@ def test_get_sections_empty():
     item = Item(
         id="item1",
         title="Test",
-        vault_id="vault1",
+        vaultId="vault1",
         category="Login",
         fields=[],
         sections=[],
@@ -261,8 +261,8 @@ def test_get_sections_empty():
         websites=[],
         version=1,
         files=[],
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
     )
     sections = _get_sections(item)
     assert sections == {}
@@ -273,7 +273,7 @@ def test_get_sections_with_none_title():
     item = Item(
         id="item1",
         title="Test",
-        vault_id="vault1",
+        vaultId="vault1",
         category="Login",
         fields=[],
         sections=[
@@ -285,8 +285,8 @@ def test_get_sections_with_none_title():
         websites=[],
         version=1,
         files=[],
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
     )
     sections = _get_sections(item)
     # Empty string title is falsy, so it's filtered out
@@ -380,18 +380,18 @@ async def test_hydrate_model_simple(mock_op_client):
     item = Item(
         id="item1",
         title="Test",
-        vault_id="vault1",
+        vaultId="vault1",
         category="Login",
         fields=[
             ItemField(
                 id="f1",
                 title="field-one",
-                field_type="Text",
+                fieldType="Text",
                 value="test",
-                section_id=None,
+                sectionId=None,
             ),
             ItemField(
-                id="f2", title="field-two", field_type="Text", value="42", section_id=None
+                id="f2", title="field-two", fieldType="Text", value="42", sectionId=None
             ),
         ],
         sections=[],
@@ -400,8 +400,8 @@ async def test_hydrate_model_simple(mock_op_client):
         websites=[],
         version=1,
         files=[],
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
     )
     mock_op_client.secrets.resolve.side_effect = lambda x: x
     result = await _hydrate_model(SimpleConfig, mock_op_client, item)
@@ -415,11 +415,11 @@ async def test_hydrate_model_with_bool(mock_op_client):
     item = Item(
         id="item1",
         title="Test",
-        vault_id="vault1",
+        vaultId="vault1",
         category="Login",
         fields=[
-            ItemField(id="f1", title="debug", field_type="Text", value="true", section_id="sec1"),
-            ItemField(id="f2", title="timeout", field_type="Text", value="30", section_id="sec1"),
+            ItemField(id="f1", title="debug", fieldType="Text", value="true", sectionId="sec1"),
+            ItemField(id="f2", title="timeout", fieldType="Text", value="30", sectionId="sec1"),
         ],
         sections=[ItemSection(id="sec1", title="Section")],
         notes="",
@@ -427,8 +427,8 @@ async def test_hydrate_model_with_bool(mock_op_client):
         websites=[],
         version=1,
         files=[],
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
     )
     mock_op_client.secrets.resolve.side_effect = lambda x: x
     result = await _hydrate_model(SectionConfig, mock_op_client, item, section_id="sec1")
@@ -442,21 +442,21 @@ async def test_hydrate_model_with_default_value(mock_op_client):
     item = Item(
         id="item1",
         title="Test",
-        vault_id="vault1",
+        vaultId="vault1",
         category="Login",
         fields=[
             ItemField(
                 id="f1",
                 title="simple-field",
-                field_type="Text",
+                fieldType="Text",
                 value="value",
-                section_id=None,
+                sectionId=None,
             ),
             ItemField(
-                id="f2", title="debug", field_type="Text", value="false", section_id="sec1"
+                id="f2", title="debug", fieldType="Text", value="false", sectionId="sec1"
             ),
             ItemField(
-                id="f3", title="timeout", field_type="Text", value="60", section_id="sec1"
+                id="f3", title="timeout", fieldType="Text", value="60", sectionId="sec1"
             ),
         ],
         sections=[ItemSection(id="sec1", title="Section")],
@@ -465,8 +465,8 @@ async def test_hydrate_model_with_default_value(mock_op_client):
         websites=[],
         version=1,
         files=[],
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
     )
     mock_op_client.secrets.resolve.side_effect = lambda x: x
     result = await _hydrate_model(ComplexConfig, mock_op_client, item)
@@ -482,15 +482,15 @@ async def test_hydrate_model_missing_required_field(mock_op_client):
     item = Item(
         id="item1",
         title="Test",
-        vault_id="vault1",
+        vaultId="vault1",
         category="Login",
         fields=[
             ItemField(
                 id="f1",
                 title="field-one",
-                field_type="Text",
+                fieldType="Text",
                 value="test",
-                section_id=None,
+                sectionId=None,
             )
         ],
         sections=[],
@@ -499,8 +499,8 @@ async def test_hydrate_model_missing_required_field(mock_op_client):
         websites=[],
         version=1,
         files=[],
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
     )
     mock_op_client.secrets.resolve.side_effect = lambda x: x
     # StopIteration in async context is wrapped in RuntimeError (PEP 479)
@@ -514,18 +514,18 @@ async def test_hydrate_model_with_op_link(mock_op_client):
     item = Item(
         id="item1",
         title="Test",
-        vault_id="vault1",
+        vaultId="vault1",
         category="Login",
         fields=[
             ItemField(
                 id="f1",
                 title="field-one",
-                field_type="Text",
+                fieldType="Text",
                 value="op://vault/item/field",
-                section_id=None,
+                sectionId=None,
             ),
             ItemField(
-                id="f2", title="field-two", field_type="Text", value="42", section_id=None
+                id="f2", title="field-two", fieldType="Text", value="42", sectionId=None
             ),
         ],
         sections=[],
@@ -534,8 +534,8 @@ async def test_hydrate_model_with_op_link(mock_op_client):
         websites=[],
         version=1,
         files=[],
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
     )
     mock_op_client.secrets.resolve.return_value = "resolved_value"
     result = await _hydrate_model(SimpleConfig, mock_op_client, item)
@@ -549,17 +549,17 @@ async def test_hydrate_model_nested_sections(mock_op_client):
     item = Item(
         id="item1",
         title="Test",
-        vault_id="vault1",
+        vaultId="vault1",
         category="Login",
         fields=[
             ItemField(
-                id="f1", title="simple-field", field_type="Text", value="test", section_id=None
+                id="f1", title="simple-field", fieldType="Text", value="test", sectionId=None
             ),
             ItemField(
-                id="f2", title="debug", field_type="Text", value="yes", section_id="sec1"
+                id="f2", title="debug", fieldType="Text", value="yes", sectionId="sec1"
             ),
             ItemField(
-                id="f3", title="timeout", field_type="Text", value="100", section_id="sec1"
+                id="f3", title="timeout", fieldType="Text", value="100", sectionId="sec1"
             ),
         ],
         sections=[ItemSection(id="sec1", title="Section")],
@@ -568,8 +568,8 @@ async def test_hydrate_model_nested_sections(mock_op_client):
         websites=[],
         version=1,
         files=[],
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
     )
     mock_op_client.secrets.resolve.side_effect = lambda x: x
     result = await _hydrate_model(ComplexConfig, mock_op_client, item)
@@ -586,18 +586,18 @@ async def test_load_config_success(mock_op_client, mock_vault, mock_item_overvie
     item = Item(
         id="item456",
         title="TestItem",
-        vault_id="vault123",
+        vaultId="vault123",
         category="Login",
         fields=[
             ItemField(
                 id="f1",
                 title="field-one",
-                field_type="Text",
+                fieldType="Text",
                 value="test_value",
-                section_id=None,
+                sectionId=None,
             ),
             ItemField(
-                id="f2", title="field-two", field_type="Text", value="123", section_id=None
+                id="f2", title="field-two", fieldType="Text", value="123", sectionId=None
             ),
         ],
         sections=[],
@@ -606,8 +606,8 @@ async def test_load_config_success(mock_op_client, mock_vault, mock_item_overvie
         websites=[],
         version=1,
         files=[],
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
     )
 
     with patch("configator.core._get_client", return_value=mock_op_client):
@@ -664,28 +664,28 @@ async def test_load_config_complex_schema(mock_op_client, mock_vault, mock_item_
     item = Item(
         id="item456",
         title="TestItem",
-        vault_id="vault123",
+        vaultId="vault123",
         category="Login",
         fields=[
             ItemField(
                 id="f1",
                 title="simple-field",
-                field_type="Text",
+                fieldType="Text",
                 value="simple",
-                section_id=None,
+                sectionId=None,
             ),
             ItemField(
-                id="f2", title="debug", field_type="Text", value="on", section_id="sec1"
+                id="f2", title="debug", fieldType="Text", value="on", sectionId="sec1"
             ),
             ItemField(
-                id="f3", title="timeout", field_type="Text", value="200", section_id="sec1"
+                id="f3", title="timeout", fieldType="Text", value="200", sectionId="sec1"
             ),
             ItemField(
                 id="f4",
                 title="optional-field",
-                field_type="Text",
+                fieldType="Text",
                 value="custom",
-                section_id=None,
+                sectionId=None,
             ),
         ],
         sections=[ItemSection(id="sec1", title="Section")],
@@ -694,8 +694,8 @@ async def test_load_config_complex_schema(mock_op_client, mock_vault, mock_item_
         websites=[],
         version=1,
         files=[],
-        created_at="2024-01-01T00:00:00Z",
-        updated_at="2024-01-01T00:00:00Z",
+        createdAt="2024-01-01T00:00:00Z",
+        updatedAt="2024-01-01T00:00:00Z",
     )
 
     with patch("configator.core._get_client", return_value=mock_op_client):

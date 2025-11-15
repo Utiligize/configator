@@ -41,6 +41,10 @@ ignore_missing_imports = true
 
 [tool.pyright]
 defineConstant = { PYPY = false }
+executionEnvironments = [
+  { root = "tests", reportArgumentType = "none" },
+  { root = "src/configator" }
+]
 
 [tool.pytest.ini_options]
 minversion = "9.0"
