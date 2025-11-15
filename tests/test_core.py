@@ -404,7 +404,7 @@ async def test_hydrate_model_simple(mock_op_client):
         updatedAt="2024-01-01T00:00:00Z",
     )
     mock_op_client.secrets.resolve.side_effect = lambda x: x
-    result = await _hydrate_model(SimpleConfig, mock_op_client, item)
+    result = await _hydrate_model(op_client=mock_op_client, schema=SimpleConfig, item=item)
     assert result.field_one == "test"
     assert result.field_two == 42
 
@@ -431,7 +431,7 @@ async def test_hydrate_model_with_bool(mock_op_client):
         updatedAt="2024-01-01T00:00:00Z",
     )
     mock_op_client.secrets.resolve.side_effect = lambda x: x
-    result = await _hydrate_model(SectionConfig, mock_op_client, item, section_id="sec1")
+    result = await _hydrate_model(op_client=mock_op_client, schema=SectionConfig, item=item, section_id="sec1")
     assert result.debug is True
     assert result.timeout == 30
 
@@ -469,7 +469,7 @@ async def test_hydrate_model_with_default_value(mock_op_client):
         updatedAt="2024-01-01T00:00:00Z",
     )
     mock_op_client.secrets.resolve.side_effect = lambda x: x
-    result = await _hydrate_model(ComplexConfig, mock_op_client, item)
+    result = await _hydrate_model(op_client=mock_op_client, schema=ComplexConfig, item=item)
     assert result.simple_field == "value"
     assert result.section.debug is False
     assert result.section.timeout == 60
@@ -505,7 +505,7 @@ async def test_hydrate_model_missing_required_field(mock_op_client):
     mock_op_client.secrets.resolve.side_effect = lambda x: x
     # StopIteration in async context is wrapped in RuntimeError (PEP 479)
     with raises(RuntimeError, match="coroutine raised StopIteration"):
-        await _hydrate_model(SimpleConfig, mock_op_client, item)
+        await _hydrate_model(op_client=mock_op_client, schema=SimpleConfig, item=item)
 
 
 @mark.asyncio
@@ -538,7 +538,7 @@ async def test_hydrate_model_with_op_link(mock_op_client):
         updatedAt="2024-01-01T00:00:00Z",
     )
     mock_op_client.secrets.resolve.return_value = "resolved_value"
-    result = await _hydrate_model(SimpleConfig, mock_op_client, item)
+    result = await _hydrate_model(op_client=mock_op_client, schema=SimpleConfig, item=item)
     assert result.field_one == "resolved_value"
     assert result.field_two == 42
 
@@ -572,7 +572,7 @@ async def test_hydrate_model_nested_sections(mock_op_client):
         updatedAt="2024-01-01T00:00:00Z",
     )
     mock_op_client.secrets.resolve.side_effect = lambda x: x
-    result = await _hydrate_model(ComplexConfig, mock_op_client, item)
+    result = await _hydrate_model(op_client=mock_op_client, schema=ComplexConfig, item=item)
     assert result.simple_field == "test"
     assert isinstance(result.section, SectionConfig)
     assert result.section.debug is True

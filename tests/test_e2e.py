@@ -27,7 +27,10 @@ async def test_load_config():
         a_float: float
         a_bool: bool
         another_bool: bool
-
+        a_dict: dict
+        a_list: list
+        a_set: set
+        a_tuple: tuple
 
     class E2ETestConfig(BaseModel):
         """Full end-to-end test configuration schema."""
@@ -50,18 +53,22 @@ async def test_load_config():
             a_float=0.1,
             a_bool=True,
             another_bool=False,
+            a_dict={"baz": "quux", "xyzzy": 42, "foo": "bar"},
+            a_list=[1, 2, 3],
+            a_set={"diamonds", "clubs", "hearts", "spades"},
+            a_tuple=("hearts", "diamonds", "clubs", "spades", "hearts"),
         ),
         MIXIN=SentryConfig(dsn="https://this.url.is.invalid/"),
         outside_sections="This value is just a string but it could be anything. Just like you. Believe in yourself. Worry not what others think. Buy that extra chunk of cheese.",
         not_set="default_value",
     )
 
-    actual_config: E2ETestConfig = await load_config(**{
-        "schema": E2ETestConfig,
-        "token": OP_TOKEN,
-        "vault": vault,
-        "item": item,
-    })
+    actual_config: E2ETestConfig = await load_config(
+        schema=E2ETestConfig,
+        token=OP_TOKEN,
+        vault=vault,
+        item=item,
+    )
 
     assert actual_config == expected_config
     assert actual_config.MIXIN.traces_sample_rate == approx(0.0)

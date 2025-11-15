@@ -2,6 +2,7 @@
 
 from functools import partial
 from importlib.metadata import version
+from json import JSONDecodeError, loads
 from typing import Any, TypeVar
 
 from onepassword.client import Client as OnePasswordClient
@@ -31,7 +32,7 @@ async def load_config(*, token: str, vault: str, item: str, schema: type[T]) -> 
 
     cfg_item = await client.items.get(vault_id=vault_overview.id, item_id=item_overview.id)
 
-    return await _hydrate_model(schema, client, cfg_item)
+    return await _hydrate_model(op_client=client, schema=schema, item=cfg_item)
 
 
 def _field_matcher(field: ItemField, *, title: str, section_id: str | None = None) -> bool:
@@ -85,14 +86,53 @@ async def _get_vault_overview(
     return None
 
 
+async def _hydrate_field(
+    *,
+    op_client: OnePasswordClient,
+    cls: type,
+    item: Item,
+    key: str,
+    default: Any,
+    section_id: str | None = None,
+) -> Any:
+    """Hydrate single field from 1Password item."""
+    wet_fields = item.fields
+    if issubclass(cls, BaseModel):
+        sections = _get_sections(item)
+        return await _hydrate_model(
+            op_client=op_client, schema=cls, item=item, section_id=sections[key.lower()]
+        )
+    else:
+        matcher = partial(_field_matcher, title=key.lower(), section_id=section_id)
+        ret_val = default
+        try:
+            str_val = await _resolve_op_link(op_client, next(filter(matcher, wet_fields)).value)
+            print(f"{cls=}, {str_val=}")
+            if issubclass(cls, (dict, list, set, tuple)):
+                ret_val = cls(loads(str_val))
+            elif issubclass(cls, bool):
+                ret_val = _parse_bool(str_val)
+            else:
+                ret_val = cls(str_val)  # type: ignore[call-arg]
+        except JSONDecodeError as jde:
+            log.error("failed to parse field '%s' as JSON: %s", key, str(jde))
+            raise
+        except StopIteration:
+            if default is PydanticUndefined:
+                log.error("field '%s' not found and no default value provided", key)
+                raise
+            log.debug("using default value for field '%s'", key)
+        print(f"{key=}, {ret_val=}")
+        return ret_val
+
+
 async def _hydrate_model(
-    schema: type[T], op_client: OnePasswordClient, item: Item, section_id: str | None = None
+    *, op_client: OnePasswordClient, schema: type[T], item: Item, section_id: str | None = None
 ) -> T:
     """Hydrate Pydantic model from 1Password item."""
     log.debug("hydrating model '%s'", schema.__name__)
     dry_model = schema.model_fields
     wet_model: dict[str, Any] = {}
-    wet_fields = item.fields
     for key in dry_model:
         log.debug("hydrating field '%s'", key)
         cls = dry_model[key].annotation
@@ -100,22 +140,14 @@ async def _hydrate_model(
             log.warning("no annotation for field '%s'; skipping", key)
             continue
 
-        if issubclass(cls, BaseModel):
-            sections = _get_sections(item)
-            wet_model[key] = await _hydrate_model(cls, op_client, item, sections[key.lower()])
-        else:
-            matcher = partial(_field_matcher, title=key.lower(), section_id=section_id)
-            try:
-                str_val = await _resolve_op_link(
-                    op_client, next(filter(matcher, wet_fields)).value
-                )
-                wet_model[key] = _parse_bool(str_val) if issubclass(cls, bool) else cls(str_val)
-            except StopIteration as stop:
-                # Field not found, use default value if available
-                if dry_model[key].default is PydanticUndefined:
-                    raise stop
-                log.debug("using default value for field '%s'", key)
-                wet_model[key] = dry_model[key].default
+        wet_model[key] = await _hydrate_field(
+            op_client=op_client,
+            cls=cls,
+            item=item,
+            key=key,
+            default=dry_model[key].default,
+            section_id=section_id,
+        )
 
     return schema(**wet_model)
 
