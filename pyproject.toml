@@ -62,6 +62,10 @@ asyncio_default_fixture_loop_scope = "function"
 line-length = 99
 target-version = "py312"
 
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = 72
+
 [tool.ruff.lint]
 select = ["A", "B", "C", "E", "F", "FBT", "I", "N", "RUF", "S"]
 
