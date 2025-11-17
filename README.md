@@ -68,18 +68,18 @@ This feature works with the provided common configuration models (`PostgresConfi
 ## Installation
 
 ```bash
-uv pip install "git+https://github.com/Utiligize/configator@v3000"
+uv add "git+https://github.com/Utiligize/configator@v3000.0.0"
 ```
 
 or, if you like the bleeding edge:
 
 ```bash
-uv pip install "git+https://github.com/Utiligize/configator"
+uv add "git+https://github.com/Utiligize/configator"
 ```
 
 For information on how to authenticate uv with GitHub, see <https://docs.astral.sh/uv/concepts/authentication/git/>.
 
-For information on how to use private repos in GitHub Actions, see <https://docs.astral.sh/uv/guides/integration/github/#private-repos>
+For information on how to use private repos in GitHub Actions, see <https://docs.astral.sh/uv/guides/integration/github/#private-repos>. If you create a fine-grained access token, it simply needs the "Content" read permission.
 
 ## Writing Config Classes
 
