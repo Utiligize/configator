@@ -1,6 +1,6 @@
 [project]
 name = "configator"
-version = "3000.0.0"
+version = "3000.0.1"
 description = "Load config values from 1Password with this module."
 readme = "README.md"
 requires-python = ">=3.12"
