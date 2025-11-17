@@ -116,7 +116,6 @@ Nested models are loaded from separate sections in the 1Password item. Fields in
   because it confuses the hydrator, who won't know which constructor to call or will try to initialize `None`.
 - While `default` values are supported, `default_factory` is not.
 - Basic Python types `bytes` and `bytearray` may work but are not officially supported.
-- Arbitrary JSON is not supported, but you may be able to `loads` it from a string. Caveat emptor.
 
 ## Development
 
