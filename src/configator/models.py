@@ -69,11 +69,12 @@ class PostgresConfig(ConfigatorSettings):
     PGPASSWORD: SecretStr = SecretStr("hunter2")
     PGDATABASE: str = "postgres"
     PGSSLMODE: _PostgresSSLMode = _PostgresSSLMode("prefer")
+    SCHEME: str = "postgresql"
 
     def dsn(self) -> PostgresDsn:
         """Build the PostgreSQL DSN string."""
         return PostgresDsn.build(
-            scheme="postgresql",
+            scheme=self.SCHEME,
             username=self.PGUSER,
             password=self.PGPASSWORD.get_secret_value(),
             host=self.PGHOST,
