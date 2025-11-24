@@ -18,6 +18,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 …
 
+## [3000.2.0] - 2025-11-24
+
+### Added
+
+- feat: make logging configurable by library users ([6df3acd])
+- chore: add license file, headers and info in pyproject.toml ([f18dfe9])
+
 ## [3000.1.1] - 2025-11-20
 
 ### Added
@@ -54,21 +61,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 Initial release.
 
-### Added
-
-Not applicable.
-
-### Fixed
-
-Not applicable.
-
-### Changed
-
-Not applicable.
-
 <!-- markdownlint-disable-file MD024 -->
 
 [Unreleased]: https://github.com/olivierlacan/keep-a-changelog/compare/v3000.0.0...HEAD
+[3000.2.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v3000.1.1...v3000.2.0
 [3000.1.1]: https://github.com/olivierlacan/keep-a-changelog/compare/v3000.1.0...v3000.1.1
 [3000.1.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v3000.0.2...v3000.1.0
 [3000.0.2]: https://github.com/olivierlacan/keep-a-changelog/compare/v3000.0.1...v3000.0.2
@@ -79,6 +75,8 @@ Not applicable.
 [0ddc16a]: https://github.com/Utiligize/configator/commit/0ddc16ac3e8e0637137bf93146630198215d6546
 [50b4692]: https://github.com/Utiligize/configator/commit/50b469283ea63937d8993c8b70aa1a164f32b55f
 [5ddbe83]: https://github.com/Utiligize/configator/commit/5ddbe839ddbb42fe72c1d5acffa2751ced5f967c
+[6df3acd]: https://github.com/Utiligize/configator/commit/6df3acdef891c6b60b90ea96c128b317956b1671
 [7569cb8]: https://github.com/Utiligize/configator/commit/7569cb8540028800570513411a5ab5291ab45cc6
 [9688a7c]: https://github.com/Utiligize/configator/commit/9688a7c1da90d13ce2d54bd270ab6a7e3f3e5de1
 [981fc8f]: https://github.com/Utiligize/configator/commit/981fc8f4087cef661888e93bf8d147a085f04dc6
+[f18dfe9]: https://github.com/Utiligize/configator/commit/f18dfe9db79c03fe90cc27535b764e2b55af5942
