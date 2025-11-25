@@ -10,7 +10,7 @@
 from functools import partial
 from importlib.metadata import version
 from json import JSONDecodeError, loads
-from typing import Any, TypeVar
+from typing import Any
 
 from onepassword.client import Client as OnePasswordClient
 from onepassword.types import Item, ItemField, ItemOverview, VaultOverview
@@ -19,12 +19,10 @@ from pydantic_core import PydanticUndefined
 
 from .log import get_logger
 
-T = TypeVar("T", bound=BaseModel)
-
 log = get_logger()
 
 
-async def load_config(*, token: str, vault: str, item: str, schema: type[T]) -> T:
+async def load_config[T: BaseModel](*, token: str, vault: str, item: str, schema: type[T]) -> T:
     """Return an initialized schema instance."""
     log.debug("loading configuration into schema '%s'", schema.__name__)
 
@@ -132,7 +130,7 @@ async def _hydrate_field(
         return ret_val
 
 
-async def _hydrate_model(
+async def _hydrate_model[T: BaseModel](
     *, op_client: OnePasswordClient, schema: type[T], item: Item, section_id: str | None = None
 ) -> T:
     """Hydrate Pydantic model from 1Password item."""
